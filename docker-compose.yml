@@ -1,6 +1,15 @@
 services:
-
+  al-carbon-calculator:
+    container_name: al-carbon-calculator
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8085:8085"
+    networks:
+      - carbon-calc
   mongo:
+    container_name: mongo-carbon-calc-db
     image: mongo:latest
     ports:
       - "27017:27017"
