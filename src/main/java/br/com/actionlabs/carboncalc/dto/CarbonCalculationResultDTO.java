@@ -8,4 +8,11 @@ public class CarbonCalculationResultDTO {
   private double transportation;
   private double solidWaste;
   private double total;
+
+  public CarbonCalculationResultDTO(double energy, double transportation, double solidWaste, double total) {
+    this.energy = energy;
+    this.transportation = transportation;
+    this.solidWaste = solidWaste;
+    this.total = total;
+  }
 }

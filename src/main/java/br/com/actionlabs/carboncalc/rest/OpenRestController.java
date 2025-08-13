@@ -1,6 +1,7 @@
 package br.com.actionlabs.carboncalc.rest;
 
 import br.com.actionlabs.carboncalc.dto.*;
+import br.com.actionlabs.carboncalc.model.UserCarbonEmission;
 import br.com.actionlabs.carboncalc.model.Users;
 import br.com.actionlabs.carboncalc.services.UsersService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,8 +14,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/open")
@@ -31,7 +34,7 @@ public class OpenRestController {
   })
   @PostMapping("start-calc")
   public ResponseEntity<StartCalcResponseDTO> startCalculation(
-      @RequestBody StartCalcRequestDTO request) {
+      @Valid @RequestBody StartCalcRequestDTO request) {
     try {
       return ResponseEntity.ok(new StartCalcResponseDTO(usersService.saveUser(request), HttpStatusCode.valueOf(200), "Success"));
     } catch (ResponseStatusException e) {
@@ -41,12 +44,21 @@ public class OpenRestController {
 
   @PutMapping("info")
   public ResponseEntity<UpdateCalcInfoResponseDTO> updateInfo(
-      @RequestBody UpdateCalcInfoRequestDTO request) {
-    throw new RuntimeException("Not implemented");
+      @Valid @RequestBody UpdateCalcInfoRequestDTO request) {
+    try {
+      return ResponseEntity.ok(new UpdateCalcInfoResponseDTO(usersService.calculateCarbonFootprint(request)));
+    } catch (ResponseStatusException e) {
+      return ResponseEntity.status(e.getStatusCode()).body(new UpdateCalcInfoResponseDTO(false));
+    }
   }
 
   @GetMapping("result/{id}")
   public ResponseEntity<CarbonCalculationResultDTO> getResult(@PathVariable String id) {
-    throw new RuntimeException("Not implemented");
+    try {
+      UserCarbonEmission userCarbonEmission = usersService.getUserCarbonEmission(id);
+      return ResponseEntity.ok(new CarbonCalculationResultDTO(userCarbonEmission.getEnergy(), userCarbonEmission.getTransportation(), userCarbonEmission.getSolidWasteTotal(), userCarbonEmission.getTotal()));
+    } catch (ResponseStatusException e) {
+      return ResponseEntity.status(e.getStatusCode()).body(new CarbonCalculationResultDTO(0,0,0,0));
+    }
   }
 }
