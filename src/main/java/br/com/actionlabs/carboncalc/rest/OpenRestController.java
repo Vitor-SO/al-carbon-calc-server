@@ -2,7 +2,6 @@ package br.com.actionlabs.carboncalc.rest;
 
 import br.com.actionlabs.carboncalc.dto.*;
 import br.com.actionlabs.carboncalc.model.UserCarbonEmission;
-import br.com.actionlabs.carboncalc.model.Users;
 import br.com.actionlabs.carboncalc.services.UsersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import jakarta.validation.Valid;
