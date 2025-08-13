@@ -8,6 +8,10 @@ services:
       - "8085:8085"
     networks:
       - carbon-calc
+    volumes:
+      - .:/app
+    working_dir: /app
+
   mongo:
     container_name: mongo-carbon-calc-db
     image: mongo:latest
