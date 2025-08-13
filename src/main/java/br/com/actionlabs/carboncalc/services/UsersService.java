@@ -3,7 +3,6 @@ package br.com.actionlabs.carboncalc.services;
 import br.com.actionlabs.carboncalc.dto.StartCalcRequestDTO;
 import br.com.actionlabs.carboncalc.dto.TransportationDTO;
 import br.com.actionlabs.carboncalc.dto.UpdateCalcInfoRequestDTO;
-import br.com.actionlabs.carboncalc.enums.TransportationType;
 import br.com.actionlabs.carboncalc.model.*;
 import br.com.actionlabs.carboncalc.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -63,9 +62,9 @@ public class UsersService {
         carbonEmission.setSolidWasteTotal(solidWasteEmission);
         carbonEmission.setTotal(energyEmission + transportationEmission + solidWasteEmission);
 
-        userCarbonEmissionRepository.save(carbonEmission);
+        UserCarbonEmission savedCarbonEmission = userCarbonEmissionRepository.save(carbonEmission);
 
-        return true;
+        return savedCarbonEmission.getId() != null;
     }
 
     public UserCarbonEmission getUserCarbonEmission(String id) {

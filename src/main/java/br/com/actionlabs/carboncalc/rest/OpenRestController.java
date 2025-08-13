@@ -30,7 +30,7 @@ public class OpenRestController {
   @ApiResponses(value = {
           @ApiResponse(responseCode = "200", description = "Successful operation",
                   content = @Content(mediaType = "application/json",
-                          array = @ArraySchema(schema = @Schema(implementation = Users.class))))
+                          array = @ArraySchema(schema = @Schema(implementation = StartCalcResponseDTO.class))))
   })
   @PostMapping("start-calc")
   public ResponseEntity<StartCalcResponseDTO> startCalculation(
@@ -42,6 +42,12 @@ public class OpenRestController {
     }
   }
 
+  @Operation(summary = "Update the information of a calculation")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Successful operation",
+                  content = @Content(mediaType = "application/json",
+                          array = @ArraySchema(schema = @Schema(implementation = UpdateCalcInfoResponseDTO.class))))
+  })
   @PutMapping("info")
   public ResponseEntity<UpdateCalcInfoResponseDTO> updateInfo(
       @Valid @RequestBody UpdateCalcInfoRequestDTO request) {
@@ -52,6 +58,12 @@ public class OpenRestController {
     }
   }
 
+  @Operation(summary = "Get the result of a calculation")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Successful operation",
+                  content = @Content(mediaType = "application/json",
+                          array = @ArraySchema(schema = @Schema(implementation = CarbonCalculationResultDTO.class))))
+  })
   @GetMapping("result/{id}")
   public ResponseEntity<CarbonCalculationResultDTO> getResult(@PathVariable String id) {
     try {
